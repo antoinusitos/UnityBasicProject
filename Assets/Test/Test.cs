@@ -15,5 +15,10 @@ public class Test : MonoBehaviour {
         {
             SoundManager.GetInstance().playSound3D("test", new Vector3(100, 0, 0));
         }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            ScreenShakeManager.GetInstance().ShakeForSeconds(1.0f);
+        }
 	}
 }
