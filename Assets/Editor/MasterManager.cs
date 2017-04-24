@@ -86,6 +86,28 @@ class MasterManager : EditorWindow
     {
         if (EditorApplication.isPlaying) return;
 
+        if(_managersParent == null)
+        {
+            _managersParent = GameObject.Find("Managers");
+
+            if (_managersParent != null)
+            {
+
+                if (_allManagersInstance == null)
+                {
+                    _allManagersInstance = new List<GameObject>();
+                }
+
+                for (int i = 0; i < _managersParent.transform.childCount; i++)
+                {
+                    _allManagersInstance.Add(_managersParent.transform.GetChild(i).gameObject);
+                }
+            }
+        }
+
+        string f = _managersParent == null ? "not" : "";
+        GUILayout.Label("Manager Parent : " + f + " found", EditorStyles.boldLabel);
+
         GUILayout.Label("CREATION / SELECTION", EditorStyles.boldLabel);
 
         if (_allManagers == null) return;
