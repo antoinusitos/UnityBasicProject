@@ -17,17 +17,15 @@ class MasterManager : EditorWindow
 
     private static GameObject _managersParent = null;
 
-    private delegate void managerDelegate();
-
     private struct AManager
     {
         public string name;
-        public managerDelegate AManagerDelegate;
+        public System.Type scriptToAdd;
 
-        public AManager(string newName, managerDelegate newManagerDelegate)
+        public AManager(string newName, System.Type toAdd)
         {
             name = newName;
-            AManagerDelegate = newManagerDelegate;
+            scriptToAdd = toAdd;
         }
     }
 
@@ -47,32 +45,36 @@ class MasterManager : EditorWindow
         //************** ADD MANAGER HERE **************//
 
         // GAME MANAGER
-        AManager gameManager = new AManager("Game Manager", CreateGameManager);
+        AManager gameManager = new AManager("Game Manager", typeof(GameManager));
         _allManagers.Add(gameManager);
 
         // SOUND MANAGER
-        AManager soundManager = new AManager("Sound Manager", CreateSoundManager);
+        AManager soundManager = new AManager("Sound Manager", typeof(SoundManager));
         _allManagers.Add(soundManager);
 
         // INPUT MANAGER
-        AManager inputManager = new AManager("Input Manager", CreateInputManager);
+        AManager inputManager = new AManager("Input Manager", typeof(InputManager));
         _allManagers.Add(inputManager);
 
         // SCORE MANAGER
-        AManager scoreManager = new AManager("Score Manager", CreateScoreManager);
+        AManager scoreManager = new AManager("Score Manager", typeof(ScoreManager));
         _allManagers.Add(scoreManager);
 
         // UI MANAGER
-        AManager uiManager = new AManager("UI Manager", CreateUIManager);
+        AManager uiManager = new AManager("UI Manager", typeof(UIManager));
         _allManagers.Add(uiManager);
 
         // SCREENSHAKE MANAGER
-        AManager screenShakeManager = new AManager("ScreenShake Manager", CreateScreenShakeManager);
+        AManager screenShakeManager = new AManager("ScreenShake Manager", typeof(ScreenShakeManager));
         _allManagers.Add(screenShakeManager);
 
         // PLAYER MANAGER
-        AManager playerManager = new AManager("Player Manager", CreatePlayerManager);
+        AManager playerManager = new AManager("Player Manager", typeof(PlayerManager));
         _allManagers.Add(playerManager);
+
+        // GAMEPAD MANAGER
+        AManager gamepadManager = new AManager("Gamepad Manager", typeof(GamepadManager));
+        _allManagers.Add(gamepadManager);
 
         //************** ADD MANAGER HERE **************//
 
@@ -120,7 +122,7 @@ class MasterManager : EditorWindow
 
             for(int m = 0; m < _allManagersInstance.Count; m++)
             {
-                if(_allManagersInstance[m].name == _allManagers[i].name)
+                if (_allManagersInstance != null && _allManagersInstance[m].name == _allManagers[i].name)
                 {
                     found = _allManagersInstance[m];
                     break;
@@ -132,7 +134,7 @@ class MasterManager : EditorWindow
                 if (!found)
                 {
                     CheckParentCreated();
-                    _allManagers[i].AManagerDelegate();
+                    CreateNewManager(_allManagers[i]);
                     Debug.Log(_allManagers[i].name + " created.");
                 }
                 else
@@ -161,8 +163,6 @@ class MasterManager : EditorWindow
         }
     }
 
-    //************** ADD DELEGATE HERE **************//
-
     void CheckParentCreated()
     {
         if(_managersParent == null)
@@ -181,61 +181,11 @@ class MasterManager : EditorWindow
             Debug.LogError("No Object Managers found as parent for new Manager !");
     }
 
-    static void CreateGameManager()
+    static void CreateNewManager(AManager theNewManager)
     {
-        GameObject go = new GameObject("Game Manager");
-        GameManager m = go.AddComponent<GameManager>();
+        GameObject go = new GameObject(theNewManager.name);
+        BaseManager m = (BaseManager)go.AddComponent(theNewManager.scriptToAdd);
         m.InitManagerForEditor();
         AttachInstanceAndStock(go);
     }
-
-    static void CreateSoundManager()
-    {
-        GameObject go = new GameObject("Sound Manager");
-        SoundManager m = go.AddComponent<SoundManager>();
-        m.InitManagerForEditor();
-        AttachInstanceAndStock(go);
-    }
-
-    static void CreateInputManager()
-    {
-        GameObject go = new GameObject("Input Manager");
-        InputManager m = go.AddComponent<InputManager>();
-        m.InitManagerForEditor();
-        AttachInstanceAndStock(go);
-    }
-
-    static void CreateScoreManager()
-    {
-        GameObject go = new GameObject("Score Manager");
-        ScoreManager m = go.AddComponent<ScoreManager>();
-        m.InitManagerForEditor();
-        AttachInstanceAndStock(go);
-    }
-
-    static void CreateUIManager()
-    {
-        GameObject go = new GameObject("UI Manager");
-        UIManager m = go.AddComponent<UIManager>();
-        m.InitManagerForEditor();
-        AttachInstanceAndStock(go);
-    }
-
-    static void CreateScreenShakeManager()
-    {
-        GameObject go = new GameObject("ScreenShake Manager");
-        ScreenShakeManager m = go.AddComponent<ScreenShakeManager>();
-        m.InitManagerForEditor();
-        AttachInstanceAndStock(go);
-    }
-
-    static void CreatePlayerManager()
-    {
-        GameObject go = new GameObject("Player Manager");
-        PlayerManager m = go.AddComponent<PlayerManager>();
-        m.InitManagerForEditor();
-        AttachInstanceAndStock(go);
-    }
-
-    //************** ADD DELEGATE HERE **************//
 }
