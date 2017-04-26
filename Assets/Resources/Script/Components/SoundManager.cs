@@ -9,14 +9,12 @@ public class SoundManager : BaseManager
     {
         public string name;
         public AudioClip clip;
-        public bool spatialized;
         public bool loop;
 
-        public SoundToPlay(string newName, AudioClip newClip, bool mustSpatialized, bool mustLoop)
+        public SoundToPlay(string newName, AudioClip newClip, bool mustLoop)
         {
             name = newName;
             clip = newClip;
-            spatialized = mustSpatialized;
             loop = mustLoop; // @Implementation : must be implemented to looped or not
         }
     }
@@ -24,6 +22,7 @@ public class SoundManager : BaseManager
     public List<SoundToPlay> _allPlayableSound;
 
     private AudioSource _theAudioSource = null;
+    private GameObject _soundsParent = null;
 
     // -----------------------------------------------------------------------------------------
 
@@ -41,6 +40,11 @@ public class SoundManager : BaseManager
 
         if (_theAudioSource == null)
             _theAudioSource = GetComponent<AudioSource>();
+
+        if (_soundsParent == null)
+        {
+            _soundsParent = new GameObject("All Playing Sounds");
+        }
     }
 
     private void InitAllPlayableSounds()
@@ -54,7 +58,12 @@ public class SoundManager : BaseManager
         {
             if (_allPlayableSound[i].name == theSoundName)
             {
-                _theAudioSource.PlayOneShot(_allPlayableSound[i].clip);
+                GameObject sound = new GameObject("UI Sound");
+                sound.transform.position = Vector3.zero;
+                UISound sp = sound.AddComponent<UISound>();
+                sp.transform.parent = _soundsParent.transform;
+                sp.Init();
+                sp.Play(_allPlayableSound[i].clip, _allPlayableSound[i].loop);
                 return;
             }
         }
@@ -71,8 +80,9 @@ public class SoundManager : BaseManager
                 GameObject sound = new GameObject("Spatialized Sound");
                 sound.transform.position = thePosition;
                 SpatializedSound sp = sound.AddComponent<SpatializedSound>();
+                sp.transform.parent = _soundsParent.transform;
                 sp.Init();
-                sp.Play(_allPlayableSound[i].clip);
+                sp.Play(_allPlayableSound[i].clip, _allPlayableSound[i].loop);
                 return;
             }
         }

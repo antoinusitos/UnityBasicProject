@@ -4,6 +4,34 @@ using UnityEngine;
 
 public class ScoreManager : BaseManager
 {
+    private int _score;
+    private int _limitScore;
+
+
+    public int GetScore()
+    {
+        return _score;
+    }
+
+    public void AddScore(int amount)
+    {
+        _score += amount;
+    }
+
+    public void RemoveScore(int amount)
+    {
+        _score -= amount;
+    }
+
+    public void SetLimitScore(int amount)
+    {
+        _limitScore = amount;
+    }
+
+    public bool LimitScoreReached()
+    {
+        return _score >= _limitScore;
+    }
 
     // -----------------------------------------------------------------------------------------
 
