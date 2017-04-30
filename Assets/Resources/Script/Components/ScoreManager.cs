@@ -33,6 +33,21 @@ public class ScoreManager : BaseManager
         return _score >= _limitScore;
     }
 
+    public override void Reset()
+    {
+        _score = 0;
+    }
+
+    public void SaveMaxScore()
+    {
+        int maxScore = 0;
+        maxScore = PlayerPrefs.GetInt("MaxScore");
+        if (_score > maxScore)
+        {
+            PlayerPrefs.SetInt("MaxScore", _score);
+        }
+    }
+
     // -----------------------------------------------------------------------------------------
 
     public override void InitManagerForEditor()

@@ -17,7 +17,7 @@ public class GamepadManager : BaseManager
         // @Implentation : Test the functionalities
         // @BUG : DllNotFoundException: XInputInterface (l.21)
 
-       /* PlayerIndex testPlayerIndex = (PlayerIndex)0;
+        PlayerIndex testPlayerIndex = (PlayerIndex)0;
         GamePadState testState = GamePad.GetState(testPlayerIndex);
         if (testState.IsConnected)
         {
@@ -25,7 +25,7 @@ public class GamepadManager : BaseManager
         }
 
         _prevState = _state;
-        _state = GamePad.GetState(testPlayerIndex);*/
+        _state = GamePad.GetState(testPlayerIndex);
     }
 
     public void Vibration(int index)

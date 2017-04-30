@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerManager : BaseManager
 {
 
+
     // -----------------------------------------------------------------------------------------
 
     public override void InitManagerForEditor()

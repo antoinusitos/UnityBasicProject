@@ -5,6 +5,42 @@ using UnityEngine;
 public class GameManager : BaseManager 
 {
 
+    public void Win()
+    {
+
+    }
+
+    public void Loose()
+    {
+
+    }
+
+    public void StartGame()
+    {
+
+    }
+
+    public void StartMenu()
+    {
+
+    }
+
+    private void Reset()
+    {
+
+    }
+
+    public void Restart()
+    {
+        StartCoroutine(TimerRestart(3.0f));
+    }
+
+    IEnumerator TimerRestart(float time)
+    {
+        yield return new WaitForSeconds(time);
+        StartMenu();
+    }
+
     // -----------------------------------------------------------------------------------------
 
     public override void InitManagerForEditor()

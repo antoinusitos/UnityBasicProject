@@ -8,4 +8,9 @@ public class BaseManager : MonoBehaviour
     {
 
     }
+
+    public virtual void Reset()
+    {
+
+    }
 }
