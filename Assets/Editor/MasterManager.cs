@@ -128,7 +128,7 @@ class MasterManager : EditorWindow
                     break;
                 }
             }
-            
+
             if (GUILayout.Button(_allManagers[i].name, GUILayout.Height(_buttonSize)))
             {
                 if (!found)

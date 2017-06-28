@@ -7,7 +7,6 @@ public class ScoreManager : BaseManager
     private int _score;
     private int _limitScore;
 
-
     public int GetScore()
     {
         return _score;
