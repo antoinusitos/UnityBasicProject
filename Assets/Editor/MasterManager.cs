@@ -76,6 +76,10 @@ class MasterManager : EditorWindow
         AManager gamepadManager = new AManager("Gamepad Manager", typeof(GamepadManager));
         _allManagers.Add(gamepadManager);
 
+        // INFO MANAGER
+        AManager infoManager = new AManager("Info Manager", typeof(InfoManager));
+        _allManagers.Add(infoManager);
+
         //************** ADD MANAGER HERE **************//
 
 

@@ -6,16 +6,21 @@ using System.IO;
 
 public class FileReader : MonoBehaviour
 {
-    private float _timer;
-    private int _repetition;
+    // file to read for the data
+    private static string fileName = "SystemInfos.txt";
 
-    public MonoBehaviour scriptTarget;
+    // folder containing the file to read
+    private static string watcherFolder = "/Data";
 
-    private string fileName = "SystemInfos.txt";
+    private static string fullPath = "";
 
+    private FileSystemWatcher watcher;
+    
     void Start()
     {
-
+        fullPath = Application.dataPath + watcherFolder;
+        CreateFileWatcher();
+        StartReading();
     }
 
     public void StartReading()
@@ -23,9 +28,9 @@ public class FileReader : MonoBehaviour
         ReadFile();
     }
 
-    void ReadFile()
+    static void ReadFile()
     {
-        StreamReader sr = new StreamReader(Application.dataPath + "/" + fileName);
+        StreamReader sr = new StreamReader(fullPath + "/" + fileName);
         string fileContents = sr.ReadToEnd();
         sr.Close();
 
@@ -34,6 +39,7 @@ public class FileReader : MonoBehaviour
         string[] lines = fileContents.Split("\n"[0]);
         foreach (string line in lines)
         {
+            // not a comment line
             if (!line.Contains("#"))
             {
                 infos.Add(line);
@@ -55,9 +61,42 @@ public class FileReader : MonoBehaviour
                     case "Exemple":
                         // DO STUFF with TheInfo[1]
                         break;
+                    case "Vsync":
+                        InfoManager.GetInstance().TryReadVSyncValue(TheInfo[1], TheInfo[0]);
+                        break;
                 }
             }
         }
     }
 
+    public void CreateFileWatcher()
+    {
+        // Create a new FileSystemWatcher and set its properties.
+        watcher = new FileSystemWatcher(fullPath);
+        /* Watch for changes in LastAccess and LastWrite times, and 
+           the renaming of files or directories. */
+        watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+           | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+        // Only watch text files.
+        watcher.Filter = "*.txt";
+
+        // Add event handlers.
+        watcher.Changed += new FileSystemEventHandler(OnChanged);
+
+        // CAN BE ADDED
+        //watcher.Created += new FileSystemEventHandler(OnChanged);
+        //watcher.Deleted += new FileSystemEventHandler(OnChanged);
+        //watcher.Renamed += new RenamedEventHandler(OnRenamed);
+
+        // Begin watching.
+        watcher.EnableRaisingEvents = true;
+    }
+
+    // Define the event handlers.
+    private static void OnChanged(object source, FileSystemEventArgs e)
+    {
+        // Specify what is done when a file is changed, created, or deleted.
+        print("File: " + e.FullPath + " " + e.ChangeType);
+        ReadFile();
+    }
 }
