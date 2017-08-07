@@ -5,18 +5,23 @@ using UnityEngine;
 public class GameManager : BaseManager 
 {
 
+    // Unomment if you want to use Game Flow
+    //private bool _inGame = true;
+
     private void Start()
     {
         // Uncomment if you want to use Game Flow
         //StartCoroutine(GameFlow());
     }
 
-    private IEnumerator GameFlow()
+    /*private IEnumerator GameFlow()
     {
+        while(_inGame)
+        {
 
-        
-        yield return new WaitForEndOfFrame();
-    }
+            yield return new WaitForEndOfFrame();
+        }
+    }*/
 
     public void Win()
     {

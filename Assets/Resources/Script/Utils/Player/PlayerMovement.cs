@@ -46,8 +46,22 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Debug.Log("Y Button Pressed");
                 }
-
-                //TO DO : MAKE TRIGGER AND SHOULDER WORKING
+                if (_gamepadManager.LeftTriggerPressed(_indexPlayer))
+                {
+                    Debug.Log("Left Trigger Pressed");
+                }
+                if (_gamepadManager.RightTriggerPressed(_indexPlayer))
+                {
+                    Debug.Log("Right Trigger Pressed");
+                }
+                if (_gamepadManager.LeftShoulderPressed(_indexPlayer))
+                {
+                    Debug.Log("Left Shoulder Pressed");
+                }
+                if (_gamepadManager.RightShoulderPressed(_indexPlayer))
+                {
+                    Debug.Log("Right Shoulder Pressed");
+                }
             }
 
             if(useKeyboard)

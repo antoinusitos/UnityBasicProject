@@ -62,6 +62,24 @@ public class GamepadManager : BaseManager
         return _state[playerIndex].ThumbSticks.Left.Y;
     }
 
+    public bool RightShoulderPressed(int playerIndex)
+    {
+        if (_prevState[playerIndex].Buttons.RightShoulder == ButtonState.Released && _state[playerIndex].Buttons.RightShoulder == ButtonState.Pressed)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool LeftShoulderPressed(int playerIndex)
+    {
+        if (_prevState[playerIndex].Buttons.LeftShoulder == ButtonState.Released && _state[playerIndex].Buttons.LeftShoulder == ButtonState.Pressed)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public bool RightTriggerPressed(int playerIndex)
     {
         return _state[playerIndex].Triggers.Right >= _triggerDeadZone ? true : false;
