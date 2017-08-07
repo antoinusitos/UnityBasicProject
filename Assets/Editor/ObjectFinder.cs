@@ -22,7 +22,7 @@ class ObjectFinder : EditorWindow
     }
 
     AddFinder addingWidow;
-
+    GameObject go;
     public static List<AFinder> _allFinders;
 
     [MenuItem("Basic Manager/Object Finder")]
@@ -77,6 +77,57 @@ class ObjectFinder : EditorWindow
             }
 
             GUILayout.EndHorizontal();
+        }
+
+        if (GUILayout.Button("Save Finders !", GUILayout.Height(_buttonSize)))
+        {
+            SaveList();
+        }
+
+        if (GUILayout.Button("Load Finders !", GUILayout.Height(_buttonSize)))
+        {
+            if (_allFinders.Count != 0)
+                _allFinders.Clear();
+            LoadList();
+        }
+    }
+
+    void SaveList()
+    {
+        PlayerPrefs.SetInt("FinderNumber", _allFinders.Count);
+
+        for(int i = 0; i < _allFinders.Count; i++)
+        {
+            PlayerPrefs.SetString("FinderName"+i, _allFinders[i].name);
+            PlayerPrefs.SetInt("FinderID"+i, _allFinders[i].instance.GetInstanceID());
+        }
+
+        PlayerPrefs.Save();
+    }
+
+    void LoadList()
+    {
+        int index = PlayerPrefs.GetInt("FinderNumber");
+
+        for (int i = 0; i < index; i++)
+        {
+            string name = PlayerPrefs.GetString("FinderName" + i);
+            int id = PlayerPrefs.GetInt("FinderID" + i);
+            GameObject instance = null;
+
+
+            GameObject[] allGO = GameObject.FindObjectsOfType<GameObject>();
+            for(int go = 0; go < allGO.Length; go++)
+            {
+                if(allGO[go].GetInstanceID() == id)
+                {
+                    instance = allGO[go];
+                    break;
+                }
+            }
+
+            AFinder F = new AFinder(name, instance);
+            _allFinders.Add(F);
         }
     }
 }

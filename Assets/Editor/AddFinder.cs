@@ -10,6 +10,8 @@ class AddFinder : EditorWindow
 
     private string tempString = "name";
 
+    GameObject toFind;
+
     [MenuItem("Basic Manager/Object Finder")]
 
     static void Init()
@@ -30,16 +32,15 @@ class AddFinder : EditorWindow
 
         GUILayout.BeginHorizontal();
         GUILayout.Label("INSTANCE", EditorStyles.boldLabel);
-        if (Selection.activeGameObject)
-            GUILayout.Label(Selection.activeGameObject.name);
-        else
-            GUILayout.Label("NONE");
+        toFind = (GameObject)EditorGUI.ObjectField(new Rect(0, 50, position.width - 6, 20), toFind, typeof(GameObject), true);
 
         GUILayout.EndHorizontal();
 
+        GUILayout.Space(60);
+
         if (GUILayout.Button("Add Finder !", GUILayout.Height(_buttonSize)))
         {
-            ObjectFinder._allFinders.Add(new ObjectFinder.AFinder(tempString, Selection.activeGameObject));
+            ObjectFinder._allFinders.Add(new ObjectFinder.AFinder(tempString, toFind));
             Close();
         }
     }
