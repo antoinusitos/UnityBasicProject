@@ -5,6 +5,19 @@ using UnityEngine;
 public class GameManager : BaseManager 
 {
 
+    private void Start()
+    {
+        // Uncomment if you want to use Game Flow
+        //StartCoroutine(GameFlow());
+    }
+
+    private IEnumerator GameFlow()
+    {
+
+        
+        yield return new WaitForEndOfFrame();
+    }
+
     public void Win()
     {
 
@@ -25,7 +38,7 @@ public class GameManager : BaseManager
 
     }
 
-    private void Reset()
+    public override void Reset()
     {
 
     }

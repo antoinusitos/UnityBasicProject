@@ -8,81 +8,100 @@ public class GamepadManager : BaseManager
 
     private float _triggerDeadZone = 0.5f;
 
-    private PlayerIndex _playerIndex;
-    private GamePadState _state;
-    private GamePadState _prevState;
+    public int playerNumber;
+
+    private List<PlayerIndex> _playerIndex;
+    private List<GamePadState> _state;
+    private List<GamePadState> _prevState;
+
+    private void Start()
+    {
+        _playerIndex = new List<PlayerIndex>();
+        for(int i = 0; i < playerNumber; i++)
+        {
+            _playerIndex.Add((PlayerIndex)i);
+        }
+
+        _state = new List<GamePadState>();
+        for(int i = 0; i < playerNumber; i++)
+        {
+            _state.Add(new GamePadState());
+        }
+        _prevState = new List<GamePadState>();
+        for (int i = 0; i < playerNumber; i++)
+        {
+            _prevState.Add(new GamePadState());
+        }
+    }
 
     void Update()
     {
-        // @Implentation : Test the functionalities
-        // @BUG : DllNotFoundException: XInputInterface (l.21)
-
-        PlayerIndex testPlayerIndex = (PlayerIndex)0;
-        GamePadState testState = GamePad.GetState(testPlayerIndex);
-        if (testState.IsConnected)
+        for (int i = 0; i < playerNumber; i++)
         {
-            _playerIndex = testPlayerIndex;
+            _prevState[i] = _state[i];
         }
 
-        _prevState = _state;
-        _state = GamePad.GetState(testPlayerIndex);
+        for (int i = 0; i < playerNumber; i++)
+        {
+            _state[i] = GamePad.GetState(_playerIndex[i]);
+        }
     }
 
-    public void Vibration(int index)
+    public void Vibration(int playerIndex)
     {
-        GamePad.SetVibration((PlayerIndex)index, 1.0f, 1.0f);
+        GamePad.SetVibration(_playerIndex[playerIndex], 1.0f, 1.0f);
     }
 
-    public float GetStickPosX()
+    public float GetStickPosX(int playerIndex)
     {
-        return _state.ThumbSticks.Left.X;
+        return _state[playerIndex].ThumbSticks.Left.X;
     }
 
-    public float GetStickPosY()
+    public float GetStickPosY(int playerIndex)
     {
-        return _state.ThumbSticks.Left.Y;
+        return _state[playerIndex].ThumbSticks.Left.Y;
     }
 
-    public bool RightTriggerPressed()
+    public bool RightTriggerPressed(int playerIndex)
     {
-        return _state.Triggers.Right >= _triggerDeadZone ? true : false;
+        return _state[playerIndex].Triggers.Right >= _triggerDeadZone ? true : false;
     }
 
-    public bool LeftTriggerPressed()
+    public bool LeftTriggerPressed(int playerIndex)
     {
-        return _state.Triggers.Left >= _triggerDeadZone ? true : false;
+        return _state[playerIndex].Triggers.Left >= _triggerDeadZone ? true : false;
     }
 
-    public bool BButtonPressed()
+    public bool BButtonPressed(int playerIndex)
     {
-        if (_prevState.Buttons.B == ButtonState.Released && _state.Buttons.B == ButtonState.Pressed)
+        if (_prevState[playerIndex].Buttons.B == ButtonState.Released && _state[playerIndex].Buttons.B == ButtonState.Pressed)
         {
             return true;
         }
         return false;
     }
 
-    public bool AButtonPressed()
+    public bool AButtonPressed(int playerIndex)
     {
-        if (_prevState.Buttons.A == ButtonState.Released && _state.Buttons.A == ButtonState.Pressed)
+        if (_prevState[playerIndex].Buttons.A == ButtonState.Released && _state[playerIndex].Buttons.A == ButtonState.Pressed)
         {
             return true;
         }
         return false;
     }
 
-    public bool XButtonPressed()
+    public bool XButtonPressed(int playerIndex)
     {
-        if (_prevState.Buttons.X == ButtonState.Released && _state.Buttons.X == ButtonState.Pressed)
+        if (_prevState[playerIndex].Buttons.X == ButtonState.Released && _state[playerIndex].Buttons.X == ButtonState.Pressed)
         {
             return true;
         }
         return false;
     }
 
-    public bool YButtonPressed()
+    public bool YButtonPressed(int playerIndex)
     {
-        if (_prevState.Buttons.Y == ButtonState.Released && _state.Buttons.Y == ButtonState.Pressed)
+        if (_prevState[playerIndex].Buttons.Y == ButtonState.Released && _state[playerIndex].Buttons.Y == ButtonState.Pressed)
         {
             return true;
         }

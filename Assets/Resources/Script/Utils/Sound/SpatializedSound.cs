@@ -13,6 +13,7 @@ public class SpatializedSound : MonoBehaviour
         _theAudioSource = gameObject.AddComponent<AudioSource>();
         _theAudioSource.playOnAwake = false;
         _theAudioSource.spatialBlend = 1; // set the audio source to 3D
+        _theAudioSource.spatialize = true;
     }
 
     public void Play(AudioClip theAudio, bool mustLoop)

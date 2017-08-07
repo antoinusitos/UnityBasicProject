@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour 
 {
-
     private bool _canMove = true;
 
-    public int indexPlayer = 0;
+    private int _indexPlayer = 0;
+
     public bool useGamepad = true;
     public bool useKeyboard = true;
 
@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        _indexPlayer = GetComponent<PlayerIndexInfo>().playerIndex;
         _inputManager = InputManager.GetInstance();
         _gamepadManager = GamepadManager.GetInstance();
     }
@@ -27,10 +28,23 @@ public class PlayerMovement : MonoBehaviour
         {
             if(useGamepad)
             {
-                Debug.Log(_gamepadManager.GetStickPosX());
-                if(_gamepadManager.AButtonPressed())
+                //Debug.Log(_gamepadManager.GetStickPosX(_indexPlayer));
+                //Debug.Log(_gamepadManager.GetStickPosY(_indexPlayer));
+                if (_gamepadManager.AButtonPressed(_indexPlayer))
                 {
                     Debug.Log("A Button Pressed");
+                }
+                if (_gamepadManager.BButtonPressed(_indexPlayer))
+                {
+                    Debug.Log("B Button Pressed");
+                }
+                if (_gamepadManager.XButtonPressed(_indexPlayer))
+                {
+                    Debug.Log("X Button Pressed");
+                }
+                if (_gamepadManager.YButtonPressed(_indexPlayer))
+                {
+                    Debug.Log("Y Button Pressed");
                 }
             }
 
