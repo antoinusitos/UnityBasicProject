@@ -8,24 +8,29 @@ class ObjectCreator : EditorWindow
 {
     private float _buttonSize = 30.0f;
 
+    private float totalSize = 0;
+
     private string tempString = "name";
-    private int numberToAttach = 2;
+    private int numberToAttach = 0;
+    private string finalString = "0";
 
     public struct CreatedObject
     {
         public string name;
-        public List<MonoBehaviour> scriptsToAttach;
+        public List<MonoScript> scriptsToAttach;
 
         public CreatedObject(string newName)
         {
             name = newName;
-            scriptsToAttach = new List<MonoBehaviour>();
+            scriptsToAttach = new List<MonoScript>();
         }
     }
 
     public static List<CreatedObject> allCreatedObjects;
 
-    public MonoBehaviour obj = null;
+    private List<MonoScript> currentscriptsToAttach = new List<MonoScript>();
+
+    System.Type t;
 
     [MenuItem("Basic Manager/Object Creator")]
 
@@ -35,6 +40,7 @@ class ObjectCreator : EditorWindow
         ObjectCreator window = (ObjectCreator)EditorWindow.GetWindow(typeof(ObjectCreator));
         if (allCreatedObjects == null)
             allCreatedObjects = new List<CreatedObject>();
+
         window.Show();
     }
 
@@ -49,20 +55,60 @@ class ObjectCreator : EditorWindow
 
         GUILayout.BeginHorizontal();
         GUILayout.Label("ScriptToAttach", EditorStyles.boldLabel);
-        GUILayout.TextField("lol");
+        string s = GUILayout.TextField(finalString);
+        if (s != "")
+        {
+
+            int tempNumber = int.Parse(s);
+
+            if (tempNumber > numberToAttach)
+            {
+                for (int i = 0; i < tempNumber - numberToAttach; i++)
+                {
+                    currentscriptsToAttach.Add(new MonoScript());
+                }
+            }
+            else if (tempNumber < numberToAttach)
+            {
+                for (int i = 0; i < tempNumber - numberToAttach; i++)
+                {
+                    currentscriptsToAttach.RemoveAt(currentscriptsToAttach.Count);
+                }
+            }
+
+            numberToAttach = tempNumber;
+            finalString = numberToAttach.ToString();
+        }
+        else
+        {
+            finalString = "";
+        }
 
         GUILayout.EndHorizontal();
 
         for (int i = 0; i < numberToAttach; i++)
         {
-            obj = (MonoBehaviour)EditorGUI.ObjectField(new Rect(0, 40 + i * 30, position.width - 6, 20), obj, typeof(MonoBehaviour), true);
+            currentscriptsToAttach[i] = (MonoScript)EditorGUI.ObjectField(new Rect(0, 50 + i * 30, position.width - 6, 20), currentscriptsToAttach[i], typeof(MonoScript), false);
         }
 
+        //t = (System.Type)EditorGUI.ObjectField(new Rect(0, 50 + 3 * 30, position.width - 6, 20), t, typeof(System.Type), false);
 
-        /*if (GUILayout.Button("Add Finder !", GUILayout.Height(_buttonSize)))
+        totalSize = 50 + numberToAttach * 30;
+
+        GUILayout.Space(totalSize);
+
+        if (GUILayout.Button("Add Finder !", GUILayout.Height(_buttonSize)))
         {
-            ObjectFinder._allFinders.Add(new ObjectFinder.AFinder(tempString, Selection.activeGameObject));
-            Close();
-        }*/
+            CreatedObject co = new CreatedObject(tempString);
+            co.scriptsToAttach = new List<MonoScript>();
+            for (int i = 0; i < numberToAttach; i++)
+            {
+               // MonoScript mb =  currentscriptsToAttach[i] as MonoBehaviour;
+                co.scriptsToAttach.Add(currentscriptsToAttach[i]);
+            }
+
+            allCreatedObjects.Add(co);
+            Debug.Log("Object Created !");
+        }
     }
 }
