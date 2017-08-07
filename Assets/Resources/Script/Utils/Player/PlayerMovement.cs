@@ -46,6 +46,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Debug.Log("Y Button Pressed");
                 }
+
+                //TO DO : MAKE TRIGGER AND SHOULDER WORKING
             }
 
             if(useKeyboard)

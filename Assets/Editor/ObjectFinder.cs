@@ -48,7 +48,13 @@ class ObjectFinder : EditorWindow
             addingWidow.Show();
         }
 
-        for(int i = 0; i < _allFinders.Count; i++)
+        if (_allFinders == null)
+        {
+            _allFinders = new List<AFinder>();
+            LoadList();
+        }
+
+        for (int i = 0; i < _allFinders.Count; i++)
         {
             GUILayout.BeginHorizontal();
 
