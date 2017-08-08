@@ -7,12 +7,12 @@ using System.IO;
 public class FileReader : MonoBehaviour
 {
     // file to read for the data
-    private static string fileName = "SystemInfos.txt";
+    private string fileName = "SystemInfos.txt";
 
     // folder containing the file to read
-    private static string watcherFolder = "/Data";
+    private string watcherFolder = "/Data";
 
-    private static string fullPath = "";
+    private string fullPath = "";
 
     private FileSystemWatcher watcher;
     
@@ -25,10 +25,10 @@ public class FileReader : MonoBehaviour
 
     public void StartReading()
     {
-        ReadFile();
+        ReadFile(true);
     }
 
-    static void ReadFile()
+    private void ReadFile(bool mainThread)
     {
         StreamReader sr = new StreamReader(fullPath + "/" + fileName);
         string fileContents = sr.ReadToEnd();
@@ -64,6 +64,10 @@ public class FileReader : MonoBehaviour
                     case "Vsync":
                         InfoManager.GetInstance().TryReadVSyncValue(TheInfo[1], TheInfo[0]);
                         break;
+                    case "ReadQuestFile":
+                        if(mainThread)
+                            QuestManager.GetInstance().SetReadquestFile(TheInfo[1], TheInfo[0]);
+                        break;
                 }
             }
         }
@@ -93,10 +97,10 @@ public class FileReader : MonoBehaviour
     }
 
     // Define the event handlers.
-    private static void OnChanged(object source, FileSystemEventArgs e)
+    private void OnChanged(object source, FileSystemEventArgs e)
     {
         // Specify what is done when a file is changed, created, or deleted.
         print("File: " + e.FullPath + " " + e.ChangeType);
-        ReadFile();
+        ReadFile(false);
     }
 }

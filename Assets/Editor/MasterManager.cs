@@ -80,6 +80,10 @@ class MasterManager : EditorWindow
         AManager infoManager = new AManager("Info Manager", typeof(InfoManager));
         _allManagers.Add(infoManager);
 
+        // INFO MANAGER
+        AManager questManager = new AManager("Quest Manager", typeof(QuestManager));
+        _allManagers.Add(questManager);
+
         //************** ADD MANAGER HERE **************//
 
 

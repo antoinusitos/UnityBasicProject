@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test : MonoBehaviour {
+public class Test : MonoBehaviour
+{
+
+    int index = -1;
 
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.P))
         {
-            SoundManager.GetInstance().playSound2D("test");
+            QuestManager.GetInstance().StartQuest(index+1);
+            index++;
         }
 
         if (Input.GetKeyDown(KeyCode.O))
         {
-            SoundManager.GetInstance().playSound3D("test", new Vector3(100, 0, 0));
+            QuestManager.GetInstance().NotifyQuest(index);
         }
 
         if (Input.GetKeyDown(KeyCode.I))

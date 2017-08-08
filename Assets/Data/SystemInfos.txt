@@ -2,3 +2,5 @@
 File=SystemInfos.txt
 #Using Vsync
 Vsync=false
+#Read Quest File
+ReadQuestFile=true

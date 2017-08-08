@@ -19,8 +19,11 @@ public class InfoManager : BaseManager
 
     private void SetUseVSync(bool newState)
     {
-        _useVsync = newState;
-        print("Set VSync to " + _useVsync);
+        if (_useVsync != newState)
+        {
+            _useVsync = newState;
+            print("Set VSync to " + _useVsync);
+        }
     }
 
 
