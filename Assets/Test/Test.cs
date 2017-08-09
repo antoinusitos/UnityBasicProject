@@ -24,5 +24,14 @@ public class Test : MonoBehaviour
         {
             ScreenShakeManager.GetInstance().ShakeForSeconds(1.0f);
         }
-	}
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            CinematicManager.GetInstance().Play();
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            CinematicManager.GetInstance().Pause();
+        }
+    }
 }
