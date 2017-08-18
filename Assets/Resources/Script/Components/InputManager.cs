@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class InputManager : BaseManager
 {
+    private Vector2 _lastMousePos = Vector2.zero;
+
+    public KeyCode forward;
+    public KeyCode backward;
+    public KeyCode right;
+    public KeyCode left;
+
+    private void Update()
+    {
+        _lastMousePos = Input.mousePosition;
+    }
+
     // Enter
     public bool GetEnterPressed()
     {
@@ -40,6 +52,26 @@ public class InputManager : BaseManager
     public bool GetEscapePressed()
     {
         return Input.GetKeyDown(KeyCode.Escape);
+    }
+
+    public Vector2 GetMousePosition()
+    {
+        return Input.mousePosition;
+    }
+
+    public Vector2 GetLastMousePosition()
+    {
+        return _lastMousePos;
+    }
+
+    public float GetHorizontalMouseMovement()
+    {
+        return Input.GetAxis("Mouse X");
+    }
+
+    public float GetVerticalMouseMovement()
+    {
+        return Input.GetAxis("Mouse Y");
     }
 
     // -----------------------------------------------------------------------------------------

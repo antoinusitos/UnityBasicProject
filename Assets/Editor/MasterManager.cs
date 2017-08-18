@@ -84,9 +84,13 @@ class MasterManager : EditorWindow
         AManager questManager = new AManager("Quest Manager", typeof(QuestManager));
         _allManagers.Add(questManager);
 
-        // QUEST MANAGER
+        // CINEMATIC MANAGER
         AManager cinematicManager = new AManager("Cinematic Manager", typeof(CinematicManager));
         _allManagers.Add(cinematicManager);
+
+        // CAMERA MANAGER
+        AManager cameraManager = new AManager("Camera Manager", typeof(CameraManager));
+        _allManagers.Add(cameraManager);
 
         //************** ADD MANAGER HERE **************//
 

@@ -40,7 +40,8 @@ public class CinematicManager : BaseManager
 
     private void Start()
     {
-        cinematicCamera.gameObject.SetActive(false);
+        if(cinematicCamera)
+            cinematicCamera.gameObject.SetActive(false);
     }
 
     public void Play()
