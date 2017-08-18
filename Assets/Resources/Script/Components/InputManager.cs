@@ -6,10 +6,12 @@ public class InputManager : BaseManager
 {
     private Vector2 _lastMousePos = Vector2.zero;
 
-    public KeyCode forward;
-    public KeyCode backward;
-    public KeyCode right;
-    public KeyCode left;
+    public KeyCode forward = KeyCode.Z;
+    public KeyCode backward = KeyCode.S;
+    public KeyCode right = KeyCode.D;
+    public KeyCode left = KeyCode.Q;
+    public KeyCode pause = KeyCode.P;
+    public KeyCode menu = KeyCode.I;
 
     private void Update()
     {
@@ -72,6 +74,16 @@ public class InputManager : BaseManager
     public float GetVerticalMouseMovement()
     {
         return Input.GetAxis("Mouse Y");
+    }
+
+    public bool GetPausePressed()
+    {
+        return Input.GetKeyDown(pause);
+    }
+
+    public bool GetMenuPressed()
+    {
+        return Input.GetKeyDown(menu);
     }
 
     // -----------------------------------------------------------------------------------------
