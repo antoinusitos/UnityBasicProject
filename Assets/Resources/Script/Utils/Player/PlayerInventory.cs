@@ -7,6 +7,7 @@ public class PlayerInventory : MonoBehaviour
     private bool _isInInventory = false;
 
     public GameObject inventory;
+    public GameObject map;
 
     private InputManager _inputManager;
     private CameraManager _cameraManager;
@@ -16,6 +17,7 @@ public class PlayerInventory : MonoBehaviour
         _inputManager = InputManager.GetInstance();
         _cameraManager = CameraManager.GetInstance();
         inventory.SetActive(_isInInventory);
+        map.SetActive(_isInInventory);
     }
 
     private void Update()
@@ -30,6 +32,7 @@ public class PlayerInventory : MonoBehaviour
     private void OpenCloseInventory()
     {
         inventory.SetActive(_isInInventory);
+        map.SetActive(_isInInventory);
         if(_isInInventory)
         {
             _cameraManager.SetCursorLocked(CursorLockMode.None);

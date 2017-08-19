@@ -11,14 +11,18 @@ public class ScalingWindow : MonoBehaviour
 
     public RectTransform windowAttached;
     public bool isWidth = false;
-    public bool isLeft = false;
     private float tempWidth;
     private float tempHeight;
     private Vector2 tempPos;
 
+    private float _baseHeight;
+    private float _baseWidth;
+
     private void Start()
     {
         _transform = GetComponent<RectTransform>();
+        _baseHeight = _transform.rect.height;
+        _baseWidth = _transform.rect.width;
     }
 
     private void Update()
@@ -26,10 +30,10 @@ public class ScalingWindow : MonoBehaviour
         Vector2 mousePos = Input.mousePosition;
 
         if (
-            mousePos.x < _transform.position.x + _transform.rect.width / 2 &&
-            mousePos.x > _transform.position.x - _transform.rect.width / 2 &&
-            mousePos.y < _transform.position.y + _transform.rect.height / 2 &&
-            mousePos.y > _transform.position.y - _transform.rect.height / 2 &&
+            mousePos.x <= _transform.position.x + _transform.rect.width / 2 &&
+            mousePos.x >= _transform.position.x - _transform.rect.width / 2 &&
+            mousePos.y <= _transform.position.y + _transform.rect.height / 2 &&
+            mousePos.y >= _transform.position.y - _transform.rect.height / 2 &&
             Input.GetMouseButtonDown(0)
         )
         {
@@ -46,13 +50,22 @@ public class ScalingWindow : MonoBehaviour
                 ScaleHeight((_offset.y - mousePos.y) + tempHeight);
             else
             {
-                ScaleWidth((_offset.x - mousePos.x) + tempWidth);
+                ScaleWidth(( mousePos.x - _offset.x) + tempWidth);
             }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             _selected = false;
+        }
+
+        if(isWidth)
+        {
+            _transform.sizeDelta = new Vector2(_baseWidth, windowAttached.rect.height);
+        }
+        else
+        {
+            _transform.sizeDelta = new Vector2(windowAttached.rect.width, _baseHeight);
         }
     }
 
@@ -64,12 +77,6 @@ public class ScalingWindow : MonoBehaviour
 
     public void ScaleWidth(float size)
     {
-        if(isLeft)
-            windowAttached.localPosition = tempPos - new Vector2((size / 2),0);
-        else 
-            windowAttached.localPosition = tempPos + new Vector2((size / 2),0);
-
         windowAttached.sizeDelta = new Vector2(size, windowAttached.rect.height);
-        print(size);
     }
 }
