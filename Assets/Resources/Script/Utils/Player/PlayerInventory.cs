@@ -8,9 +8,11 @@ public class PlayerInventory : MonoBehaviour
 
     public GameObject inventoryUI;
     public GameObject mapUI;
+    public GameObject craftUI;
 
     private InputManager _inputManager;
     private CameraManager _cameraManager;
+    private UIManager _uiManager;
 
     public List<Item> inventory;
     private int _maximumQuantity = 5;
@@ -35,8 +37,8 @@ public class PlayerInventory : MonoBehaviour
     {
         _inputManager = InputManager.GetInstance();
         _cameraManager = CameraManager.GetInstance();
-        inventoryUI.SetActive(_isInInventory);
-        mapUI.SetActive(_isInInventory);
+        _uiManager = UIManager.GetInstance();
+        OpenCloseinventoryUI();
 
         inventory = new List<Item>();
     }
@@ -54,7 +56,8 @@ public class PlayerInventory : MonoBehaviour
     {
         inventoryUI.SetActive(_isInInventory);
         mapUI.SetActive(_isInInventory);
-        if(_isInInventory)
+        craftUI.SetActive(_isInInventory);
+        if (_isInInventory)
         {
             _cameraManager.SetCursorLocked(CursorLockMode.None);
         }
@@ -92,14 +95,19 @@ public class PlayerInventory : MonoBehaviour
     {
         int index = GetItemIndexFromID(theObject.Id);
         if (index == -1)
+        {
             inventory.Add(theObject);
+            _uiManager.AddImageToList(theObject.Texture);
+            index = GetItemIndexFromID(theObject.Id);
+            _uiManager.RefreshQuantities(index, theObject.Quantity);
+        }
         else
         {
             AddItemWithID(theObject.Id, theObject.Quantity);
         }
     }
 
-    private void AddItemWithID(int theID, int theQuantity)
+    public void AddItemWithID(int theID, int theQuantity)
     {
         if (GetNumberFromID(theID) < _maximumQuantity)
         {
@@ -108,23 +116,42 @@ public class PlayerInventory : MonoBehaviour
             {
                 Item i = new Item(inventory[index].Texture, inventory[index].Id, inventory[index].Name, Mathf.Clamp(inventory[index].Quantity + theQuantity, 0, _maximumQuantity));
                 inventory[index] = i;
+                _uiManager.RefreshQuantities(index, i.Quantity);
             }
             else
                 print("cannot add item, no corresponding Item");
         }
     }
 
-    private void RemoveItemWithID(int theID, int theQuantity)
+    public void RemoveItemWithID(int theID, int theQuantity)
     {
         if (GetNumberFromID(theID) >= theQuantity)
         {
             int index = GetItemIndexFromID(theID);
             Item i = new Item(inventory[index].Texture, inventory[index].Id, inventory[index].Name, Mathf.Clamp(inventory[index].Quantity - theQuantity, 0, _maximumQuantity));
             inventory[index] = i;
+            _uiManager.RefreshQuantities(index, i.Quantity);
+            if (i.Quantity == 0)
+            {
+                _uiManager.RemoveImageFromList(index);
+                inventory.RemoveAt(index);
+            }
         }
         else
         {
             print("cannot remove item, not enough quantity");
         }
+    }
+
+    public int GetQuantityByID(int theID)
+    {
+        for (int i = 0; i < inventory.Count; i++)
+        {
+            if (inventory[i].Id == theID)
+            {
+                return inventory[i].Quantity;
+            }
+        }
+        return 0;
     }
 }

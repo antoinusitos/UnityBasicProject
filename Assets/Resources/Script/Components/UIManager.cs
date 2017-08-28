@@ -18,7 +18,7 @@ public class UIManager : BaseManager
     private float _margin = 10.0f;
     private RectTransform backGroundSize;
 
-    private List<GameObject> _allImages;
+    public List<GameObject> _allImages;
 
     public enum ActionType
     {
@@ -101,7 +101,13 @@ public class UIManager : BaseManager
 
     public void RemoveImageFromList(int index)
     {
+        Destroy(_allImages[index]);
         _allImages.RemoveAt(index);
+    }
+
+    public void RefreshQuantities(int index, int theQuantity)
+    {
+        _allImages[index].GetComponentInChildren<Text>().text = theQuantity.ToString();
     }
 
     // -----------------------------------------------------------------------------------------

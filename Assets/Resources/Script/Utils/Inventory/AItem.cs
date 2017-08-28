@@ -4,5 +4,16 @@ using UnityEngine;
 
 public class AItem : MonoBehaviour
 {
-    public PlayerInventory.Item infos;
+    public int IDToFind = -1;
+    public PlayerInventory.Item _infos;
+
+    private void Start()
+    {
+        _infos = DataItems.GetInstance().GatherInfos(IDToFind);
+    }
+
+    public PlayerInventory.Item GetInfos()
+    {
+        return _infos;
+    }
 }

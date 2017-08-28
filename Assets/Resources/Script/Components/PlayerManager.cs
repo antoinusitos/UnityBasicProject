@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : BaseManager
 {
-
+    public PlayerInventory inventory;
 
     // -----------------------------------------------------------------------------------------
 

@@ -26,7 +26,7 @@ public class PlayerAction : MonoBehaviour
         {
             AItem item = objectFront.collider.GetComponent<AItem>();
             if (item)
-                _uiManager.SetObjectName(item.infos.Name);
+                _uiManager.SetObjectName(item.GetInfos().Name);
             else
                 _uiManager.HideObjectName();
         }
@@ -42,8 +42,7 @@ public class PlayerAction : MonoBehaviour
                 AItem item = objectFront.collider.GetComponent<AItem>();
                 if(item)
                 {
-                    _playerInventory.AddItemWithObject(item.infos);
-                    _uiManager.AddImageToList(item.infos.Texture);
+                    _playerInventory.AddItemWithObject(item.GetInfos());
                     Destroy(objectFront.collider.gameObject);
                 }
             }
