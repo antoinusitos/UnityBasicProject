@@ -12,6 +12,7 @@ public class InputManager : BaseManager
     public KeyCode left = KeyCode.Q;
     public KeyCode pause = KeyCode.P;
     public KeyCode menu = KeyCode.I;
+    public KeyCode action = KeyCode.E;
 
     private void Update()
     {
@@ -84,6 +85,11 @@ public class InputManager : BaseManager
     public bool GetMenuPressed()
     {
         return Input.GetKeyDown(menu);
+    }
+
+    public bool GetActionPressed()
+    {
+        return Input.GetKeyDown(action);
     }
 
     // -----------------------------------------------------------------------------------------
