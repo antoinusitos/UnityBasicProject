@@ -11,6 +11,9 @@ public class PlayerMovement : MonoBehaviour
     public bool useGamepad = true;
     public bool useKeyboard = true;
 
+    private Rigidbody _rigidBody;
+    public float speed = 1.0f;
+
     // Accessor
     private InputManager _inputManager;
     private GamepadManager _gamepadManager;
@@ -20,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
         _indexPlayer = GetComponent<PlayerIndexInfo>().playerIndex;
         _inputManager = InputManager.GetInstance();
         _gamepadManager = GamepadManager.GetInstance();
+        _rigidBody = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -28,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if(useGamepad)
             {
+                #region ExampleGamepad
                 //Debug.Log(_gamepadManager.GetStickPosX(_indexPlayer));
                 //Debug.Log(_gamepadManager.GetStickPosY(_indexPlayer));
                 if (_gamepadManager.AButtonPressed(_indexPlayer))
@@ -62,9 +67,10 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Debug.Log("Right Shoulder Pressed");
                 }
+                #endregion
             }
 
-            if(useKeyboard)
+            if (useKeyboard)
             {
                 if (_inputManager.GetSpaceBarPressed())
                 {
@@ -78,6 +84,33 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Debug.Log("Space Bar Input");
                 }
+
+                // EXAMPLE
+
+                Vector3 direction = Vector3.zero;
+
+                if(_inputManager.GetForwardState())
+                {
+                    direction += transform.forward;
+                }
+
+                if (_inputManager.GetBackwardState())
+                {
+                    direction -= transform.forward;
+                }
+
+                if (_inputManager.GetRightState())
+                {
+                    direction += transform.right;
+                }
+
+                if (_inputManager.GetLeftState())
+                {
+                    direction -= transform.right;
+                }
+
+                direction.Normalize();
+                _rigidBody.MovePosition(transform.position + direction * Time.deltaTime * speed);
             }
         }
     }

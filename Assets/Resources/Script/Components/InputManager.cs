@@ -92,6 +92,26 @@ public class InputManager : BaseManager
         return Input.GetKeyDown(action);
     }
 
+    public bool GetForwardState()
+    {
+        return Input.GetKey(forward);
+    }
+
+    public bool GetBackwardState()
+    {
+        return Input.GetKey(backward);
+    }
+
+    public bool GetRightState()
+    {
+        return Input.GetKey(right);
+    }
+
+    public bool GetLeftState()
+    {
+        return Input.GetKey(left);
+    }
+
     // -----------------------------------------------------------------------------------------
 
     public override void InitManagerForEditor()
