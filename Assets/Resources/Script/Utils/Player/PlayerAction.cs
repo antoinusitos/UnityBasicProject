@@ -43,6 +43,7 @@ public class PlayerAction : MonoBehaviour
                 if(item)
                 {
                     _playerInventory.AddItemWithObject(item.infos);
+                    _uiManager.AddImageToList(item.infos.Texture);
                     Destroy(objectFront.collider.gameObject);
                 }
             }

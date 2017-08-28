@@ -24,9 +24,9 @@ public class FlyingWindow : MonoBehaviour
     {
         Vector2 mousePos = Input.mousePosition;
 
-        if(
-            mousePos.x <= _transform.position.x + _transform.rect.width / 2 &&
-            mousePos.x >= _transform.position.x - _transform.rect.width / 2 &&
+        if (
+            mousePos.x <= _transform.position.x + _transform.rect.width &&
+            mousePos.x >= _transform.position.x &&
             mousePos.y <= _transform.position.y + _transform.rect.height / 2 &&
             mousePos.y >= _transform.position.y - _transform.rect.height / 2 &&
             Input.GetMouseButtonDown(0)

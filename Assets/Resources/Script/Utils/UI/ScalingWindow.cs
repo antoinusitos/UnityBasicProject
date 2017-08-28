@@ -72,11 +72,13 @@ public class ScalingWindow : MonoBehaviour
 
     public void ScaleHeight(float size)
     {
-        windowAttached.sizeDelta = new Vector2(windowAttached.rect.width, size);
+        if(size >= 50)
+            windowAttached.sizeDelta = new Vector2(windowAttached.rect.width, size);
     }
 
     public void ScaleWidth(float size)
     {
-        windowAttached.sizeDelta = new Vector2(size, windowAttached.rect.height);
+        if (size >= 50)
+            windowAttached.sizeDelta = new Vector2(size, windowAttached.rect.height);
     }
 }

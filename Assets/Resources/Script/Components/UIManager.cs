@@ -9,6 +9,17 @@ public class UIManager : BaseManager
     public Text actionName;
     public GameObject[] textsToShow;
 
+    public GameObject cursor;
+
+    public Transform allItems;
+    public GameObject objectImagePrefab;
+    private int _indexInventory = 0;
+    private int _maximumImage = 5;
+    private float _margin = 10.0f;
+    private RectTransform backGroundSize;
+
+    private List<GameObject> _allImages;
+
     public enum ActionType
     {
         None,
@@ -21,7 +32,29 @@ public class UIManager : BaseManager
 
     private void Start()
     {
+        _allImages = new List<GameObject>();
+        backGroundSize = allItems.parent.GetComponent<RectTransform>();
         HideObjectName();
+    }
+
+    private void Update()
+    {
+        if (_allImages.Count == 0)
+            _maximumImage = 5;
+        else
+        {
+            _maximumImage = (int)Mathf.Floor(backGroundSize.rect.width / (_allImages[0].GetComponent<RectTransform>().rect.width + _margin));
+        }
+
+        for (int i = 0; i < _allImages.Count; i++)
+        {
+            Image img = _allImages[i].GetComponent<Image>();
+            RectTransform rec = img.rectTransform;
+            rec.localPosition = new Vector3(
+                (i % _maximumImage) * rec.rect.width + rec.rect.width / 2 + _margin,
+                -((i / _maximumImage) * rec.rect.height + rec.rect.height / 2 + _margin),
+                0);
+        }
     }
 
     public void SetObjectName(string name)
@@ -31,6 +64,11 @@ public class UIManager : BaseManager
         {
             textsToShow[i].SetActive(true);
         }
+    }
+
+    public void ShowCursor(bool newState)
+    {
+        cursor.SetActive(newState);
     }
 
     public void SetActionType(ActionType newActionType)
@@ -49,6 +87,21 @@ public class UIManager : BaseManager
         {
             textsToShow[i].SetActive(false);
         }
+    }
+
+    public void AddImageToList(Sprite theImage)
+    {
+        GameObject go = Instantiate(objectImagePrefab);
+        go.transform.SetParent(allItems);
+        Image img = go.GetComponent<Image>();
+        img.sprite = theImage;
+        _allImages.Add(go);
+        _indexInventory++;
+    }
+
+    public void RemoveImageFromList(int index)
+    {
+        _allImages.RemoveAt(index);
     }
 
     // -----------------------------------------------------------------------------------------

@@ -21,11 +21,13 @@ public class PlayerInventory : MonoBehaviour
         public int Id;
         public string Name;
         public int Quantity;
-        public Item(int theId = -1, string theName = "UNKNOWN", int theQuantity = 0)
+        public Sprite Texture;
+        public Item(Sprite theTexture, int theId = -1, string theName = "UNKNOWN", int theQuantity = 0)
         {
             Id = theId;
             Name = theName;
             Quantity = theQuantity;
+            Texture = theTexture;
         }
     }
 
@@ -104,7 +106,7 @@ public class PlayerInventory : MonoBehaviour
             int index = GetItemIndexFromID(theID);
             if (index > -1)
             {
-                Item i = new Item(inventory[index].Id, inventory[index].Name, Mathf.Clamp(inventory[index].Quantity + theQuantity, 0, _maximumQuantity));
+                Item i = new Item(inventory[index].Texture, inventory[index].Id, inventory[index].Name, Mathf.Clamp(inventory[index].Quantity + theQuantity, 0, _maximumQuantity));
                 inventory[index] = i;
             }
             else
@@ -117,7 +119,7 @@ public class PlayerInventory : MonoBehaviour
         if (GetNumberFromID(theID) >= theQuantity)
         {
             int index = GetItemIndexFromID(theID);
-            Item i = new Item(inventory[index].Id, inventory[index].Name, Mathf.Clamp(inventory[index].Quantity - theQuantity, 0, _maximumQuantity));
+            Item i = new Item(inventory[index].Texture, inventory[index].Id, inventory[index].Name, Mathf.Clamp(inventory[index].Quantity - theQuantity, 0, _maximumQuantity));
             inventory[index] = i;
         }
         else
