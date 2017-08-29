@@ -114,4 +114,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    public void SetCanMove(bool NewState)
+    {
+        _canMove = NewState;
+    }
 }
