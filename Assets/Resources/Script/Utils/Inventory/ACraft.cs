@@ -14,6 +14,8 @@ public class ACraft : MonoBehaviour
 
     public GameObject ObjectImagePrefab;
 
+    private Button _button;
+
     [System.Serializable]
     public struct Needed
     {
@@ -24,6 +26,8 @@ public class ACraft : MonoBehaviour
     private void Start()
     {
         _playerInventory = PlayerManager.GetInstance().inventory;
+
+        _button = GetComponent<Button>();
 
         _neededInfos = new List<PlayerInventory.Item>();
         _infos = DataItems.GetInstance().GatherInfos(iDToGather);
@@ -38,6 +42,28 @@ public class ACraft : MonoBehaviour
             go.GetComponent<Image>().sprite = item.Texture;
             go.GetComponentInChildren<Text>().text = item.Quantity.ToString();
             go.GetComponent<RectTransform>().localPosition = new Vector3(70 + i * 50, 0, 0);
+        }
+    }
+
+    private void Update()
+    {
+        bool canCraft = true;
+        for (int i = 0; i < _neededInfos.Count; i++)
+        {
+            if (_playerInventory.GetQuantityByID(_neededInfos[i].Id) < _neededInfos[i].Quantity)
+            {
+                canCraft = false;
+                break;
+            }
+        }
+
+        if (canCraft)
+        {
+            _button.interactable = true;
+        }
+        else
+        {
+            _button.interactable = false;
         }
     }
 
