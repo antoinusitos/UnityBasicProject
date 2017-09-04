@@ -125,6 +125,33 @@ public class GamepadManager : BaseManager
         }
         return false;
     }
+	
+	public bool BackButtonPressed(int playerIndex)
+    {
+        if (_prevState[playerIndex].Buttons.Back == ButtonState.Released && _state[playerIndex].Buttons.Back == ButtonState.Pressed)
+        {
+            return true;
+        }
+        return false;
+    }
+	
+	public bool StartButtonPressed(int playerIndex)
+    {
+        if (_prevState[playerIndex].Buttons.Start == ButtonState.Released && _state[playerIndex].Buttons.Start == ButtonState.Pressed)
+        {
+            return true;
+        }
+        return false;
+    }
+	
+	public bool GuideButtonPressed(int playerIndex)
+    {
+        if (_prevState[playerIndex].Buttons.Guide == ButtonState.Released && _state[playerIndex].Buttons.Guide == ButtonState.Pressed)
+        {
+            return true;
+        }
+        return false;
+    }
 
     // -----------------------------------------------------------------------------------------
 
